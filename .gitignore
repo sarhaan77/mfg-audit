@@ -2,4 +2,4 @@
 .env
 __pycache__/
 tmp/
-.claude/
+.claude/uv.lock
