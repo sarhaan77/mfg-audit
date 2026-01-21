@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturing Trade Explorer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Manufacturing Trade Explorer</h1>
+        <div id="stats" class="stats">
+            <span>Loading...</span>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab active" data-tab="products">Products</button>
+        <button class="tab" data-tab="naics">Industries</button>
+        <button class="tab" data-tab="critical">Critical Matrix</button>
+        <button class="tab" data-tab="detail" style="display: none;" id="detail-tab">Detail</button>
+    </nav>
+
+    <main>
+        <!-- Products Tab -->
+        <section id="tab-products" class="tab-content active">
+            <div class="controls">
+                <input
+                    type="text"
+                    id="product-search"
+                    placeholder="Search by HS6 code or description..."
+                    autocomplete="off"
+                >
+                <button id="product-clear" class="btn-secondary">Clear</button>
+                <span id="product-count" class="count"></span>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="products-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="hs6">HS6</th>
+                            <th data-sort="description">Description</th>
+                            <th data-sort="china_deficit">China Deficit ($)</th>
+                            <th data-sort="china_import_share">China Import %</th>
+                            <th data-sort="defense_score">Defense</th>
+                            <th data-sort="trade_balance">Trade Balance ($)</th>
+                            <th data-sort="total_exports">Exports ($)</th>
+                            <th data-sort="total_imports">Imports ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- NAICS Tab -->
+        <section id="tab-naics" class="tab-content">
+            <div class="controls">
+                <span id="naics-count" class="count"></span>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="naics-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="code">NAICS</th>
+                            <th data-sort="name">Industry Name</th>
+                            <th data-sort="product_count">Products</th>
+                            <th data-sort="total_china_deficit">China Deficit ($)</th>
+                            <th data-sort="avg_defense_score">Avg Defense</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Critical Matrix Tab -->
+        <section id="tab-critical" class="tab-content">
+            <div class="controls">
+                <label>
+                    Min China Deficit ($):
+                    <input type="number" id="critical-min-deficit" value="100000000" step="10000000">
+                </label>
+                <label>
+                    Min Defense Score:
+                    <input type="number" id="critical-min-defense" value="7" min="0" max="10">
+                </label>
+                <button id="critical-apply">Apply</button>
+                <button id="critical-reset" class="btn-secondary">Reset</button>
+                <span id="critical-count" class="count"></span>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="critical-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="hs6">HS6</th>
+                            <th data-sort="description">Description</th>
+                            <th data-sort="china_deficit">China Deficit ($)</th>
+                            <th data-sort="defense_score">Defense</th>
+                            <th data-sort="criticality">Criticality</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Detail Tab -->
+        <section id="tab-detail" class="tab-content">
+            <div class="detail-header">
+                <button id="back-btn">&larr; Back</button>
+                <h2 id="detail-title"></h2>
+            </div>
+
+            <div class="detail-grid">
+                <div class="detail-section">
+                    <h3>Overview</h3>
+                    <dl>
+                        <dt>HS6 Code:</dt>
+                        <dd id="detail-hs6"></dd>
+
+                        <dt>Description:</dt>
+                        <dd id="detail-description"></dd>
+
+                        <dt>China Deficit:</dt>
+                        <dd id="detail-china-deficit"></dd>
+
+                        <dt>China Import Share:</dt>
+                        <dd id="detail-china-import-share"></dd>
+
+                        <dt>Defense Score:</dt>
+                        <dd id="detail-defense-score"></dd>
+                    </dl>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Defense Assessment</h3>
+                    <p id="detail-defense-reasoning"></p>
+                </div>
+
+                <div class="detail-section full-width">
+                    <h3>Related Industries</h3>
+                    <div id="detail-naics"></div>
+                </div>
+
+                <div class="detail-section full-width">
+                    <h3>Country-Level Trade</h3>
+                    <div class="table-wrapper">
+                        <table id="detail-countries-table">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Exports ($)</th>
+                                    <th>Imports ($)</th>
+                                    <th>Balance ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/app.js?v=4"></script>
+</body>
+</html>
